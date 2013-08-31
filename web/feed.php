@@ -1,7 +1,7 @@
 <?php
 		//ye olde news feed
 		
-		
+		//Tree-style comments
 		function get_comments($parentID , $topLevel = false)
 		{
 			global $db;
@@ -23,7 +23,7 @@
 			foreach($comments as $com)
 			{
 				echo "<div class='commentBox' style='margin-left: $indent".'px'."'>";
-				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href=''>comment</a>";
+				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href='javascript:;' onclick='comBox()'>comment</a>";
 				echo "</div>";
 				if(isset($com['comments']) && !empty($com['comments']))
 					draw_comment($com['comments'],$indent+20);
@@ -41,7 +41,7 @@
 			foreach($posts as $post)
 			{
 				$coms = get_comments($post['postID'], true);
-				//now draw it and stuff
+				//now draw it
 				echo "<div class='postBox'>";
 				echo "<div class='postHeader'>";
 				echo "Posted by ".$post['first']." ".$post['last']." at ".$post['time'];
@@ -62,5 +62,26 @@
 			
 		echo "</div>";
 		
+		
+		//Text Box for Posting Comments
+		echo "<div id='textBox' style='display: NONE'>";
+		//echo "<div id='textBox'>";
+		echo "Comment:<br />";
+		echo "<textarea id='textBoxField'></textarea><br />";
+		echo "<a href='javascript:;' onclick='document.getElementById(\"textBox\").style.display = \"NONE\" '>[cancel]</a>";
+		echo "<input type='button' name='Post' value='Post' style='float: right'>";
+		
+		
+		echo "</div>";
+		
+		
 
 ?>
+
+
+<script type="text/javascript">
+   function comBox()
+   {
+      document.getElementById("textBox").style.display = "block";
+   }
+</script>

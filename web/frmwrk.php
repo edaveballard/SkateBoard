@@ -4,7 +4,7 @@
 	
 	
 	session_start();
-	if(!isset($_SESSION['SkateBoard']))
+	if(!isset($_SESSION['SkateBoard']['config']))
 	{
 		$_SESSION['SkateBoard'] = array();
 		

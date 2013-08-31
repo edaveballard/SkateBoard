@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="default.css" type="text/css">
+<link rel="stylesheet" href="css/default.css" type="text/css">
 <?php
 	if(isset($_REQUEST['logout']))
 	{
