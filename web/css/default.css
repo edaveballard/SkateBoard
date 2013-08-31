@@ -8,6 +8,9 @@ html{
 margin: 0 0 0 0;
 padding: 0 0 0 0;
 }
+html, body{
+width: 100%;
+}
 #uBar{
 background: #20A819;
 border: solid;
@@ -19,6 +22,10 @@ margin: 0;
 padding: 8px;
 color: white;
 }
+#poweredBy
+{
+	float: right;
+}
 #navBar{
 background: blue;
 border: solid;
@@ -26,29 +33,26 @@ border-width: 0 2px 0 0;
 border-color: black;
 height: 100%;
 width: 150px;
+float: left;
 }
 .contentBox
 {
-position: absolute;
-top: 50px;
-left: 155px;
-width: 100%;
+	display: inline-block;
 }
 .postBox
 {
 	border: solid black 1px;
 	margin-left: 10px;
 	margin-right: 40px;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 20px;
 	background-color: #FFFFFF;
-	width: 70%;
+	max-width: 700px;
 }
 .postHeader
 {
 	border: solid black 1px;
 	border-width: 0 0 1px 0;
-	width: 99%;
 	padding: 3px;
 	font-weight: bold;
 }
