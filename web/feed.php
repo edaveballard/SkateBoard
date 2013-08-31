@@ -23,7 +23,7 @@
 			foreach($comments as $com)
 			{
 				echo "<div class='commentBox' style='margin-left: $indent".'px'."'>";
-				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href='javascript:;' onclick='comBox()'>comment</a>";
+				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href='javascript:;' onclick='comBox(0,0)'>comment</a>";
 				echo "</div>";
 				if(isset($com['comments']) && !empty($com['comments']))
 					draw_comment($com['comments'],$indent+20);
@@ -49,7 +49,7 @@
 				echo $post['content'];
 				
 				echo "</div><div class='postFooter'>";
-				echo "<a href=''>[Post Comment]</a>";
+				echo "<a href='javascript:;'  onclick='comBox(0,1)'>[Post Comment]</a>";
 				echo "</div><div class='postComment'>";
 				//comment stuff
 				if(!empty($coms))
@@ -80,7 +80,7 @@
 
 
 <script type="text/javascript">
-   function comBox()
+   function comBox(id,toplevel)
    {
       document.getElementById("textBox").style.display = "block";
    }
