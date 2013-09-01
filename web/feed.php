@@ -1,6 +1,9 @@
 <?php
 		//ye olde news feed
 		
+		
+		$User = $_SESSION['SkateBoard']['user'];
+		
 		//Tree-style comments
 		function get_comments($parentID , $topLevel = false)
 		{
@@ -23,7 +26,7 @@
 			foreach($comments as $com)
 			{
 				echo "<div class='commentBox' style='margin-left: $indent".'px'."'>";
-				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href='javascript:;' onclick='comBox(0,0)'>comment</a>";
+				echo $com['content']." <br /><b>".$com['first']." ".$com['last']."</b> <span class='greyed'>".$com['time']."</span> <a href='javascript:;' onclick='comBox(".$com['commentID'].",0)'>comment</a>";
 				echo "</div>";
 				if(isset($com['comments']) && !empty($com['comments']))
 					draw_comment($com['comments'],$indent+20);
@@ -49,7 +52,7 @@
 				echo $post['content'];
 				
 				echo "</div><div class='postFooter'>";
-				echo "<a href='javascript:;'  onclick='comBox(0,1)'>[Post Comment]</a>";
+				echo "<a href='javascript:;'  onclick='comBox(".$post['postID'].",1)'>[Post Comment]</a>";
 				echo "</div><div class='postComment'>";
 				//comment stuff
 				if(!empty($coms))
@@ -66,22 +69,42 @@
 		//Text Box for Posting Comments
 		echo "<div id='textBox' style='display: NONE'>";
 		//echo "<div id='textBox'>";
-		echo "Comment:<br />";
+		echo "Comment as ".$User.":<br />";
 		echo "<textarea id='textBoxField'></textarea><br />";
 		echo "<a href='javascript:;' onclick='document.getElementById(\"textBox\").style.display = \"NONE\" '>[cancel]</a>";
-		echo "<input type='button' name='Post' value='Post' style='float: right'>";
+		echo "<input type='button' name='Post' value='Post' style='float: right' onclick='submitComment()'>";
 		
 		
 		echo "</div>";
 		
+		echo "<script type='text/javascript'>currentUser='$User'</script>";
 		
-
+	
 ?>
 
-
+<script src="./js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
    function comBox(id,toplevel)
    {
       document.getElementById("textBox").style.display = "block";
+	  parentID = id;
+	  topLevelComment = toplevel;
+   }
+   function submitComment()
+   {
+		var commentText = document.getElementById("textBoxField").value;
+		$.ajax({
+			url: "AJAXcontroller.php",
+			data: {
+				user: currentUser,
+				action: "submitComment",
+				parent: parentID,
+				content: commentText,
+				toplevel: topLevelComment
+			},
+			type: "POST",
+			error: function(XHR, textStatus, errorThrown) { console.log(textStatus); console.log(errorThrown)}
+		});
+		document.getElementById("textBox").style.display = "NONE";
    }
 </script>
