@@ -1,7 +1,6 @@
 <?php
 		//ye olde news feed
 		
-		
 		$User = $_SESSION['SkateBoard']['user'];
 		
 		//Tree-style comments
@@ -41,6 +40,13 @@
 		echo "<div id='feedBox' class='contentBox'>";
 			//var_export($posts);
 			
+			//New Post Form
+			echo "<div class='postBox'>";
+			echo "<span> New Post: </span><br />";
+			echo "<textarea id='newPostField'></textarea>";
+			echo "<input type='button' name='Post' value='Post' style='float: right' onclick='submitPost()'>";
+			echo "</div>";
+			
 			foreach($posts as $post)
 			{
 				$coms = get_comments($post['postID'], true);
@@ -68,7 +74,6 @@
 		
 		//Text Box for Posting Comments
 		echo "<div id='textBox' style='display: NONE'>";
-		//echo "<div id='textBox'>";
 		echo "Comment as ".$User.":<br />";
 		echo "<textarea id='textBoxField'></textarea><br />";
 		echo "<a href='javascript:;' onclick='document.getElementById(\"textBox\").style.display = \"NONE\" '>[cancel]</a>";
@@ -103,8 +108,44 @@
 				toplevel: topLevelComment
 			},
 			type: "POST",
-			error: function(XHR, textStatus, errorThrown) { console.log(textStatus); console.log(errorThrown)}
+			error: function(XHR, textStatus, errorThrown) { console.log(textStatus); console.log(errorThrown);},
+			success: function(data, textStatus, jqXHR) { reloadFeed(); }
 		});
 		document.getElementById("textBox").style.display = "NONE";
+   }
+   function submitPost()
+   {
+		var text = document.getElementById("newPostField").value;
+		$.ajax({
+			url: "AJAXcontroller.php",
+			data: {
+				user: currentUser,
+				action: "submitPost",
+				content: text
+			},
+			type: "POST",
+			error: function(XHR, textStatus, errorThrown) { console.log(textStatus); console.log(errorThrown);},
+			success: function(data, textStatus, jqXHR) { reloadFeed(); }
+		});
+		document.getElementById("textBox").style.display = "NONE";
+   }
+   function reloadFeed()
+   {
+		//will reload the feed content (after posting, also maybe on a 5-min timer)
+		//ajax version not yet functioning, will just hard reload for now
+		window.location.reload();
+		/*
+		$.ajax({
+			url: "AJAXcontroller.php",
+			data: {
+				action: "reloadFeed"
+			},
+			type: "POST",
+			datatype: "html", 
+			error: function(XHR, textStatus, errorThrown) { console.log(textStatus); console.log(errorThrown);},
+			success: function(data, textStatus, jqXHR) { $("#feedBox").remove(); console.log(data); $('body').innerHTML = $('body').innerHTML+data; }
+		});
+		*/
+		
    }
 </script>
