@@ -1,9 +1,12 @@
 <?php
 
+	//read in config
+	include "../web/readConf.php";
+
 	//database host and credentials
-	$host = "127.0.0.1:3306";
-	$usr = 'root';	//user
-	$pass = '';		//password
+	$host = $config['DB_host'];
+	$usr = $config['DB_user'];			//user
+	$pass = $config['DB_password'];	//password
 	
 	$db = new mysqli($host,$usr,$pass);
 

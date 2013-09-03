@@ -4,21 +4,18 @@
 	
 	
 	session_start();
-	if(!isset($_SESSION['SkateBoard']['config']))
+	if(!isset($_SESSION['SkateBoard']))
 	{
 		$_SESSION['SkateBoard'] = array();
+	}
+	
+	if(!isset($_SESSION['SkateBoard']['config']))
+	{
+		//$_SESSION['SkateBoard'] = array();
 		
 		//read in config file
-		$cnf = file('../SkateBoard.config', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-		$_SESSION['SkateBoard']['config'] = array();
-		foreach($cnf as $line)
-		{
-			if(substr($line, 0, 1) != "#")
-			{
-				$ln = explode(":",$line,2);
-				$_SESSION['SkateBoard']['config'][$ln[0]] = $ln[1];
-			}
-		}
+		include "./readConf.php";
+		$_SESSION['SkateBoard']['config'] = $config;
 	}
 	
 	if(isset($_SESSION['SkateBoard']['config']['Favicon']) && $_SESSION['SkateBoard']['config']['Favicon'] != '')
@@ -48,7 +45,11 @@
 	if(isset($_SESSION['SkateBoard']['user']))
 	{
 		$user = $_SESSION['SkateBoard']['user'];
-		$db = new mysqli("127.0.0.1:3306","root","","SkateBoard");
+		$host = $_SESSION['SkateBoard']['config']['DB_host'];
+		$usr = $_SESSION['SkateBoard']['config']['DB_user'];						//user
+		$pass = $_SESSION['SkateBoard']['config']['DB_password'];				//password
+	
+		$db = new mysqli($host,$usr,$pass,"SkateBoard");
 	}
 	else
 	{

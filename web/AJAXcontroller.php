@@ -3,7 +3,15 @@
 	//trigger_error("AJAX CONTROLLER RAN!");
 	file_put_contents("./text.txt",$_REQUEST);
 	
-	$db = new mysqli("127.0.0.1:3306","root","","SkateBoard");
+	include "../web/readConf.php";
+
+	//database host and credentials
+	$host = $config['DB_host'];
+	$usr = $config['DB_user'];			//user
+	$pass = $config['DB_password'];	//password
+	
+	$db = new mysqli($host,$usr,$pass,"SkateBoard");
+	
 	session_start();
 	
 	if($_REQUEST['action'] == "submitComment")

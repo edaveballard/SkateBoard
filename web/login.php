@@ -27,7 +27,17 @@
 					{
 						$usr = $_POST['username'];
 						$sql = "SELECT password FROM `users` WHERE `login` = '$usr'";
-						$db = new mysqli("127.0.0.1:3306","root","","SkateBoard");
+						
+						include "../web/readConf.php";
+
+						//database host and credentials
+						$host = $config['DB_host'];
+						$usr = $config['DB_user'];			//user
+						$pass = $config['DB_password'];	//password
+	
+						$db = new mysqli($host,$usr,$pass,"SkateBoard");
+						
+						
 						$result = $db->query($sql)->fetch_all();
 						if(isset($result[0]) && $result[0][0] == $_POST['pword'])
 						{
